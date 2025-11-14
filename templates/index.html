@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unified Buy Score Model</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { margin: 20px; }
+        table { width: 100%; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-4">Unified Buy Score Model</h1>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Ticker</th>
+                    <th>Buy Score</th>
+                    <th>Buy Rating</th>
+                    <th>Value Score</th>
+                    <th>Quality Score</th>
+                    <th>Risk Score</th>
+                    <th>Momentum Score</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        async function fetchData() {
+            const response = await fetch('/data');
+            const data = await response.json();
+            const tableBody = document.getElementById('table-body');
+
+            tableBody.innerHTML = ''; 
+            data.forEach(row => {
+                const rowHTML = `
+                    <tr>
+                        <td>${row.ticker}</td>
+                        <td>${row.buy_score.toFixed(2)}</td>
+                        <td>${row.buy_rating}</td>
+                        <td>${row.value_score.toFixed(2)}</td>
+                        <td>${row.quality_score.toFixed(2)}</td>
+                        <td>${row.risk_score.toFixed(2)}</td>
+                        <td>${row.momentum_score.toFixed(2)}</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += rowHTML;
+            });
+        }
+
+        fetchData();
+    </script>
+</body>
+</html>
